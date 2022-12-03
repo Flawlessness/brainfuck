@@ -107,19 +107,6 @@ std :: vector<int> game ::fast_game(const std::vector<std::string> &input_strate
             results[j] += game_matrix[index][j];
         }
     }
-
-    /*std :: cout << std :: endl;
-    for (int i = 0; i < players_counts; i++)
-    {
-        std :: cout << input_strategies_[i] << " ";
-    }
-    std :: cout << std :: endl;
-    for (int i = 0; i < players_counts; i++)
-    {
-        std :: cout << results[i] << " ";
-    }
-    std :: cout << std :: endl;*/
-
     return results;
 }
 
@@ -246,22 +233,6 @@ void game ::tournament_game()
         std :: cout << i + 1 << ") " << input_strategies[i] << ": " << final_results[i] << std :: endl;
     }
 
-
-    /*int max_score = -1;
-    std :: string winning_strategy;
-    std :: cout << std :: endl;
-    for (int i = 0; i < input_strategies.size(); i++)
-    {
-        if (final_results[i] > max_score)
-        {
-            max_score = final_results[i];
-            winning_strategy = input_strategies[i];
-        }
-        std :: cout << input_strategies[i] << ": " << final_results[i] << " " << final_results_wins[i] <<std :: endl;
-    }
-    std :: cout << std :: endl << "Winning strategy: " << winning_strategy << std :: endl << "Score: " << max_score << std :: endl;*/
-
-
 }
 
 game :: game(int argc, char * argv[])
@@ -282,6 +253,7 @@ game :: game(int argc, char * argv[])
         std :: string arg_vi_string(argv[i]);
         if (arg_vi_string.size() < 5)
         {
+            help();
             throw std::invalid_argument("Invalid input.");
         }
         else if (arg_vi_string == "--mode=detailed")
@@ -321,32 +293,41 @@ game :: game(int argc, char * argv[])
                 flag = 1;
                 int flag_2 = 0;
                 steps_count = 0;
-                for (int k = 8; k < arg_vi_string.size(); k++) {
-                    if ((arg_vi_string[k] <= 57) && (arg_vi_string[k] >= 48)) {
+                for (int k = 8; k < arg_vi_string.size(); k++)
+                {
+                    if ((arg_vi_string[k] <= 57) && (arg_vi_string[k] >= 48))
+                    {
                         steps_count = steps_count * 10 + (arg_vi_string[k] - 48);
                         flag_2 = 1;
-                    } else {
+                    } else
+                    {
+                        help();
                         throw std::invalid_argument("Invalid input.");
                     }
                 }
-                if (flag_2 == 0) {
+                if (flag_2 == 0)
+                {
+                    help();
                     throw std::invalid_argument("Invalid input.");
                 }
             }
         }
         if (flag == 0)
         {
+            help();
             throw std::invalid_argument("Invalid input.");
         }
     }
 
     if (input_strategies.size() < 3)
     {
+        help();
         throw std::invalid_argument("Invalid input.");
     }
 
     if ((input_strategies.size() != 3) && (gamemode != 2))
     {
+        help();
         throw std::invalid_argument("Invalid input.");
     }
 
@@ -381,4 +362,26 @@ void game :: run()
     {
         tournament_game();
     }
+}
+
+void game :: help()
+{
+    std :: cout << "На старте программе подаются следующие аргументы командной строки:\n"
+                   "    1)Три (или более - для турнирного режима) имени соревнующихся стратегий.\n"
+                   "    2)Название режима --mode=[detailed|fast|tournament] (опциональный, по умолчанию - detailed для трех стратегий, tournament для >3 стратегий)\n"
+                   "    3)Число шагов симуляции --steps=<n> (опциональный)\n"
+                   "Возможные стратегии:\n"
+                   "    1)cooperate (всегда сотрудничает)\n"
+                   "    2)deflect (всегда предает)\n"
+                   "    3)random (рандом)\n"
+                   "    4)tit_for_tat (первым ходом сотрудничает, далее повторяет ходы соперников)\n"
+                   "    5)tit_for_tat_forgiveness (аналогична стратегии tit_for_tat, но если соперник предаст 1 раз, она все равно будет сотрудничать следующим ходом)\n"
+                   "    6)simpleton (сотрудничает до тех пор, пока соперник не предаст, далее всегда предает)\n"
+                   "    7)majority (первым ходом сотрудничает, далее выберает тот ход, который встречался чаще всего в истории ходов соперников)\n"
+                   "    8)scoundrel (первым ходом предает, далее, если предыдущий ход сопеника предать, то стратегия предает\n"
+                   "                 если предыдущий ход соперник сотрудничать и предыдий ход стратегии сотдрудничать, то она предает\n"
+                   "                 если предыдущий ход соперник сотрудничать и предыдий ход стратегии предать, то она сотрудничает )\n"
+                   "Так как игроков 3, то предательством считаем ход, при котором хотя бы один игрок предал, в противном случае считаем ход - сотрудничеством.\n"
+                   "Пример передачи аргументов: cooperate deflect random --mode=detailed --steps=100\n"
+                   "При выборе режима detailed следующий ход выводиться после нажатии кнопки {enter}, прекращаеться после команды \"quit\"\n";
 }

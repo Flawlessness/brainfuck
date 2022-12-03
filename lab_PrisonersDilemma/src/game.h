@@ -23,6 +23,7 @@ private:
 public:
     game (int argc, char * argv[]);
     void run();
+    void help();
     void detailed_game();
     std :: vector<int> fast_game(const std::vector<std::string> &input_strategies);
     void tournament_game();
