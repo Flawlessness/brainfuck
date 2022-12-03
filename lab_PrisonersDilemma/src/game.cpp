@@ -62,18 +62,22 @@ void game ::detailed_game()
         }
         std :: cout << std :: endl;
 
-        std :: cout << std :: endl;
         key = static_cast<char>(getchar());
         if (key == 'q')
         {
-            for (int z = 0; z < 10; z++)
+            int best_strategy_index = 0;
+            int max_score = -1;
+            for (int i = 0; i < input_strategies.size(); i++)
             {
-                for (int j = 0; j < 3; j++)
+                if (results[i] > max_score)
                 {
-                    std :: cout << history[z][j] << " ";
+                    max_score = results[i];
+                    best_strategy_index = i;
                 }
-                std :: cout << std :: endl;
             }
+
+            std :: cout << std :: endl <<"Best scoring strategy: " << input_strategies[best_strategy_index] << std :: endl;
+            std :: cout << "Score: " << max_score << std :: endl;
             break;
         }
     }
@@ -251,6 +255,13 @@ game :: game(int argc, char * argv[])
     {
         int flag = 0;
         std :: string arg_vi_string(argv[i]);
+
+        if ((arg_vi_string == "help") || (arg_vi_string == "-h") || (arg_vi_string == "--help"))
+        {
+            help();
+            throw std::invalid_argument("help");
+        }
+
         if (arg_vi_string.size() < 5)
         {
             help();
@@ -357,6 +368,18 @@ void game :: run()
             std :: cout << results_tmp[i] << " ";
         }
         std :: cout << std :: endl;
+        int best_strategy_index = 0;
+        int max_score = -1;
+        for (int i = 0; i < input_strategies.size(); i++)
+        {
+            if (results_tmp[i] > max_score)
+            {
+                max_score = results_tmp[i];
+                best_strategy_index = i;
+            }
+        }
+        std :: cout << "Best scoring strategy: " << input_strategies[best_strategy_index] << std :: endl;
+        std :: cout << "Score: " << max_score << std :: endl;
     }
     else
     {
@@ -379,9 +402,9 @@ void game :: help()
                    "    6)simpleton (сотрудничает до тех пор, пока соперник не предаст, далее всегда предает)\n"
                    "    7)majority (первым ходом сотрудничает, далее выберает тот ход, который встречался чаще всего в истории ходов соперников)\n"
                    "    8)scoundrel (первым ходом предает, далее, если предыдущий ход сопеника предать, то стратегия предает\n"
-                   "                 если предыдущий ход соперник сотрудничать и предыдий ход стратегии сотдрудничать, то она предает\n"
-                   "                 если предыдущий ход соперник сотрудничать и предыдий ход стратегии предать, то она сотрудничает )\n"
-                   "Так как игроков 3, то предательством считаем ход, при котором хотя бы один игрок предал, в противном случае считаем ход - сотрудничеством.\n"
+                   "                 если предыдущий ход соперник сотрудничать и предыдущий ход стратегии сотдрудничать, то она предает\n"
+                   "                 если предыдущий ход соперник сотрудничать и предыдущий ход стратегии предать, то она сотрудничает )\n"
+                   "Так как игроков 3, то предательством считаем ход, при котором хотя бы один игрок предал, в противном случае считаем ход сотрудничеством.\n"
                    "Пример передачи аргументов: cooperate deflect random --mode=detailed --steps=100\n"
                    "При выборе режима detailed следующий ход выводиться после нажатии кнопки {enter}, прекращаеться после команды \"quit\"\n";
 }
