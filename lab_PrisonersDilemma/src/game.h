@@ -1,16 +1,11 @@
+#ifndef _GAME_
+#define _GAME_
+
 #include <vector>
 #include <iostream>
 #include <string>
 #include "Factory.h"
 
-#include "cooperate_always_strategy.h"
-#include "deflect_always_strategy.h"
-#include "random_strategy.h"
-#include "tit_for_tat_strategy.h"
-#include "tit_for_tat_forgiveness_strategy.h"
-#include "simpleton_strategy.h"
-#include "majority_strategy.h"
-#include "scoundrel_strategy.h"
 
 class game {
 private:
@@ -29,3 +24,4 @@ public:
     void tournament_game();
 };
 
+#endif

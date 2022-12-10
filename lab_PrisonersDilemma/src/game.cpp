@@ -1,5 +1,12 @@
 #include "game.h"
-
+#include "cooperate_always_strategy.h"
+#include "deflect_always_strategy.h"
+#include "random_strategy.h"
+#include "tit_for_tat_strategy.h"
+#include "tit_for_tat_forgiveness_strategy.h"
+#include "simpleton_strategy.h"
+#include "majority_strategy.h"
+#include "scoundrel_strategy.h"
 namespace
 {
     const int players_counts = 3;
