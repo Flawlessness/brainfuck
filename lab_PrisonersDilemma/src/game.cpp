@@ -266,7 +266,8 @@ game :: game(int argc, char * argv[])
         if ((arg_vi_string == "help") || (arg_vi_string == "-h") || (arg_vi_string == "--help"))
         {
             help();
-            throw std::invalid_argument("help");
+            std :: cerr << "Invalid input." << std:: endl;
+            exit(0);
         }
 
         if (arg_vi_string.size() < 5)
@@ -320,33 +321,38 @@ game :: game(int argc, char * argv[])
                     } else
                     {
                         help();
-                        throw std::invalid_argument("Invalid input.");
+                        std :: cerr << "Invalid input." << std:: endl;
+                        exit(0);
                     }
                 }
                 if (flag_2 == 0)
                 {
                     help();
-                    throw std::invalid_argument("Invalid input.");
+                    std :: cerr << "Invalid input." << std:: endl;
+                    exit(0);
                 }
             }
         }
         if (flag == 0)
         {
             help();
-            throw std::invalid_argument("Invalid input.");
+            std :: cerr << "Invalid input." << std:: endl;
+            exit(0);
         }
     }
 
     if (input_strategies.size() < 3)
     {
         help();
-        throw std::invalid_argument("Invalid input.");
+        std :: cerr << "Invalid input." << std:: endl;
+        exit(0);
     }
 
     if ((input_strategies.size() != 3) && (gamemode != 2))
     {
         help();
-        throw std::invalid_argument("Invalid input.");
+        std :: cerr << "Invalid input." << std:: endl;
+        exit(0);
     }
 
 }

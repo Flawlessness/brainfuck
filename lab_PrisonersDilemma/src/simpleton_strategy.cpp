@@ -4,11 +4,11 @@ bool simpleton_strategy :: run(const std::vector<std::vector<bool>> &history, co
 {
     if (row == 0)
     {
-        return 1;
+        return true;
     }
     if (history[row - 1][column] == 0)
     {
-        return 0;
+        return false;
     }
     for (int i = 0; i < 3; i++)
     {
@@ -18,8 +18,8 @@ bool simpleton_strategy :: run(const std::vector<std::vector<bool>> &history, co
         }
         if (history[row - 1][i] == 0)
         {
-            return 0;
+            return false;
         }
     }
-    return 1;
+    return true;
 }

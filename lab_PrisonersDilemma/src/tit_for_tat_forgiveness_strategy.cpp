@@ -5,7 +5,7 @@ bool tit_for_tat_forgiveness_strategy :: run(const std :: vector<std :: vector<b
     bool result = 1;
     if (row < 2)
     {
-        return 1;
+        return true;
     }
     for (int i = 0; i < 3; i++)
     {
@@ -20,7 +20,7 @@ bool tit_for_tat_forgiveness_strategy :: run(const std :: vector<std :: vector<b
     }
     if (result == 1)
     {
-        return 1;
+        return true;
     }
     for (int i = 0; i < 3; i++)
     {
@@ -30,8 +30,8 @@ bool tit_for_tat_forgiveness_strategy :: run(const std :: vector<std :: vector<b
         }
         if (history[row - 1][i] == 0)
         {
-            return 0;
+            return false;
         }
     }
-    return 1;
+    return true;
 }

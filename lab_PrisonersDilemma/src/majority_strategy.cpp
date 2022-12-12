@@ -4,7 +4,7 @@ bool majority_strategy :: run(const std::vector<std::vector<bool>> &history, con
 {
     if (row == 0)
     {
-        return 1;
+        return true;
     }
     int cooperates_sum = 0;
     for(int k = 0; k < row; k++)
@@ -25,11 +25,11 @@ bool majority_strategy :: run(const std::vector<std::vector<bool>> &history, con
     }
     if (cooperates_sum >= (row / 2))
     {
-        return 1;
+        return true;
     }
     else
     {
-        return 0;
+        return false;
     }
 
 }

@@ -4,7 +4,7 @@ bool tit_for_tat_strategy ::run(const std::vector<std::vector<bool>> &history, c
 {
     if (row == 0)
     {
-        return 1;
+        return true;
     }
     for (int i = 0; i < 3; i++)
     {
@@ -14,8 +14,8 @@ bool tit_for_tat_strategy ::run(const std::vector<std::vector<bool>> &history, c
         }
         if (history[row - 1][i] == 0)
         {
-            return 0;
+            return false;
         }
     }
-    return 1;
+    return true;
 }
