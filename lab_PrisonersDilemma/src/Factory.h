@@ -3,7 +3,6 @@
 #include "IStrategy.h"
 #include <string>
 #include <map>
-
 #include <memory>
 
 class ICreator

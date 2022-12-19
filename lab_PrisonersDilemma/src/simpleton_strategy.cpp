@@ -1,14 +1,14 @@
 #include "simpleton_strategy.h"
 
-bool simpleton_strategy :: run(const std::vector<std::vector<bool>> &history, const int &row, const int &column) const
+IStrategy :: result simpleton_strategy :: run(const std::vector<std::vector<bool>> &history, const int &row, const int &column) const
 {
     if (row == 0)
     {
-        return true;
+        return IStrategy :: result :: cooperate;
     }
     if (history[row - 1][column] == 0)
     {
-        return false;
+        return IStrategy :: result :: deflect;
     }
     for (int i = 0; i < 3; i++)
     {
@@ -18,8 +18,8 @@ bool simpleton_strategy :: run(const std::vector<std::vector<bool>> &history, co
         }
         if (history[row - 1][i] == 0)
         {
-            return false;
+            return IStrategy :: result :: deflect;
         }
     }
-    return true;
+    return IStrategy :: result :: cooperate;
 }

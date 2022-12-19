@@ -1,11 +1,11 @@
 #include "tit_for_tat_forgiveness_strategy.h"
 
-bool tit_for_tat_forgiveness_strategy :: run(const std :: vector<std :: vector<bool>> &history, const int &row, const int &column) const
+IStrategy :: result tit_for_tat_forgiveness_strategy :: run(const std :: vector<std :: vector<bool>> &history, const int &row, const int &column) const
 {
-    bool result = 1;
+    bool result = true;
     if (row < 2)
     {
-        return true;
+        return IStrategy :: result :: cooperate;
     }
     for (int i = 0; i < 3; i++)
     {
@@ -15,12 +15,12 @@ bool tit_for_tat_forgiveness_strategy :: run(const std :: vector<std :: vector<b
         }
         if (history[row - 2][i] == 0)
         {
-            result = 0;
+            result = false;
         }
     }
-    if (result == 1)
+    if (result)
     {
-        return true;
+        return IStrategy :: result :: cooperate;
     }
     for (int i = 0; i < 3; i++)
     {
@@ -30,8 +30,8 @@ bool tit_for_tat_forgiveness_strategy :: run(const std :: vector<std :: vector<b
         }
         if (history[row - 1][i] == 0)
         {
-            return false;
+            return IStrategy :: result :: deflect;
         }
     }
-    return true;
+    return IStrategy :: result :: cooperate;
 }

@@ -1,10 +1,10 @@
 #include "scoundrel_strategy.h"
 
-bool scoundrel_strategy :: run(const std::vector<std::vector<bool>> &history, const int &row, const int &column) const
+IStrategy :: result scoundrel_strategy :: run(const std::vector<std::vector<bool>> &history, const int &row, const int &column) const
 {
     if (row == 0)
     {
-        return false;
+        return IStrategy :: result :: deflect;
     }
     int flag = 1;
     for (int i = 0; i < 3; i++)
@@ -22,15 +22,15 @@ bool scoundrel_strategy :: run(const std::vector<std::vector<bool>> &history, co
     {
         if (history[row-1][column] == 0)
         {
-            return true;
+            return IStrategy :: result :: cooperate;
         }
         else
         {
-            return false;
+            return IStrategy :: result :: deflect;
         }
     }
     else
     {
-        return false;
+        return IStrategy :: result :: deflect;
     }
 }

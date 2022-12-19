@@ -26,12 +26,12 @@ void game ::detailed_game()
         strategies[i] = factory.create(input_strategies[i]);
     }
 
-    for (int i = 0; i < 10000; i++)
+    for (int w = 0; w < 10000; w++)
     {
         unsigned int index = 0;
         for (int j = 0; j < players_counts; j++)
         {
-            player_choice[j] = strategies[j]->run(history, i, j);
+            player_choice[j] = static_cast<int>(strategies[j]->run(history, w, j));
             tmp[j] = player_choice[j];
             index |= player_choice[j] << (players_counts - 1 - j);
         }
@@ -109,7 +109,7 @@ std :: vector<int> game ::fast_game(const std::vector<std::string> &input_strate
         unsigned int index = 0;
         for (int j = 0; j < 3; j++)
         {
-            player_choice[j] = strategies[j]->run(history, i, j);
+            player_choice[j] = static_cast<int>(strategies[j]->run(history, i, j));
             history[i][j] = player_choice[j];
             index |= player_choice[j] << (2 - j);
         }
@@ -141,13 +141,11 @@ void game ::tournament_game()
                 final_results[j] += results[1];
                 final_results[k] += results[2];
                 int max = -1;
-                int max_i = -1;
                 for (int z = 0; z < 3; z++)
                 {
                     if (results[z] > max)
                     {
                         max = results[z];
-                        max_i = z;
                     }
                 }
                 for (int z = 0; z < 3; z++)
@@ -266,8 +264,7 @@ game :: game(int argc, char * argv[])
         if ((arg_vi_string == "help") || (arg_vi_string == "-h") || (arg_vi_string == "--help"))
         {
             help();
-            std :: cerr << "Invalid input." << std:: endl;
-            exit(0);
+            throw std::invalid_argument("Help.");
         }
 
         if (arg_vi_string.size() < 5)
