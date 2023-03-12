@@ -4,17 +4,20 @@ import java.util.Stack;
 public class DecrementPointerCommand implements ICommand
 {
     @Override
-    public void run(int[] array, Stack<Integer> callStack, Position currentPosition)
+    public void run(Compiler.IContext context)
     {
-        currentPosition.inInputFile++;
-        if(!callStack.empty() && callStack.peek() < 0)
+        context.setCurrentPositionInInputFile(context.getCurrentPositionInInputFile() + 1);
+        if(!context.emptyCallStack() && context.peekValueFromCallStack() < 0)
         {
             return;
         }
-        if (currentPosition.inArray == 0)
+
+        int currentPositionInArray = context.getCurrentPositionInArray();
+
+        if (currentPositionInArray == 0)
         {
             throw new ArrayIndexOutOfBoundsException("Index -1 out of bounds for length 30000");
         }
-        currentPosition.inArray--;
+        context.setCurrentPositionInArray(--currentPositionInArray);
     }
 }

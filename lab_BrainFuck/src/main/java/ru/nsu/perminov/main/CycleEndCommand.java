@@ -5,18 +5,18 @@ import ru.nsu.perminov.exception.SyntaxException;
 public class CycleEndCommand implements ICommand
 {
     @Override
-    public void run(int[] array, Stack<Integer> callStack, Position currentPosition) throws SyntaxException
+    public void run(Compiler.IContext context) throws SyntaxException
     {
-        if(!callStack.empty() && callStack.peek() < 0 || array[currentPosition.inArray] == 0)
+        if(!context.emptyCallStack() && context.peekValueFromCallStack() < 0 || context.getValueInArray(context.getCurrentPositionInArray()) == 0)
         {
-            if (callStack.empty())
+            if (context.emptyCallStack())
             {
                 throw new SyntaxException("Unexpected closing bracket");
             }
-            callStack.pop();
-            currentPosition.inInputFile++;
+            context.popValueFromCallStack();
+            context.setCurrentPositionInInputFile(context.getCurrentPositionInInputFile() + 1);
             return;
         }
-        currentPosition.inInputFile = callStack.pop();
+        context.setCurrentPositionInInputFile(context.popValueFromCallStack());
     }
 }

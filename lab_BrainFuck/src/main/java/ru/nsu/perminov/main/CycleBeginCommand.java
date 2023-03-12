@@ -5,14 +5,17 @@ import java.util.Stack;
 public class CycleBeginCommand implements ICommand
 {
     @Override
-    public void run(int[] array, Stack<Integer> callStack, Position currentPosition)
+    public void run(Compiler.IContext context)
     {
-        if(!callStack.empty() && callStack.peek() < 0 || array[currentPosition.inArray] == 0)
+        int currentPositionInInputFile = context.getCurrentPositionInInputFile();
+
+        if(!context.emptyCallStack() && context.peekValueFromCallStack() < 0 || context.getValueInArray(context.getCurrentPositionInArray()) == 0)
         {
-            currentPosition.inInputFile++;
-            callStack.push(-1);
+            context.setCurrentPositionInInputFile(++currentPositionInInputFile);
+            context.pushValueInCallStack(-1);
             return;
         }
-        callStack.push(currentPosition.inInputFile++);
+        context.pushValueInCallStack(currentPositionInInputFile);
+        context.setCurrentPositionInInputFile(++currentPositionInInputFile);
     }
 }

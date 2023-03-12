@@ -5,18 +5,21 @@ import java.util.Stack;
 public class DecrementDataCommand implements ICommand
 {
     @Override
-    public void run(int[] array, Stack<Integer> callStack, Position currentPosition)
+    public void run(Compiler.IContext context)
     {
-        currentPosition.inInputFile++;
-        if(!callStack.empty() && callStack.peek() < 0)
+        context.setCurrentPositionInInputFile(context.getCurrentPositionInInputFile() + 1);
+
+        if(!context.emptyCallStack() && context.peekValueFromCallStack() < 0)
         {
             return;
         }
 
-        array[currentPosition.inArray]--;
-        if (array[currentPosition.inArray] < 0)
+        int currentPositionInArray = context.getCurrentPositionInArray();
+
+        context.setValueInArray(currentPositionInArray, context.getValueInArray(currentPositionInArray) - 1);
+        if (context.getValueInArray(currentPositionInArray) < 0)
         {
-            array[currentPosition.inArray] += Constant.maxNumber;
+            context.setValueInArray(currentPositionInArray, context.getValueInArray(currentPositionInArray) + Constant.maxNumber);
         }
     }
 }

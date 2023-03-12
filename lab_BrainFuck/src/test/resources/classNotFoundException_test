@@ -1,0 +1,8 @@
++:ru.nsu.perminov.main.nonexistent_class
+-:ru.nsu.perminov.main.DecrementDataCommand
+>:ru.nsu.perminov.main.IncrementPointerCommand
+<:ru.nsu.perminov.main.DecrementPointerCommand
+.:ru.nsu.perminov.main.OutputCommand
+,:ru.nsu.perminov.main.InputCommand
+[:ru.nsu.perminov.main.CycleBeginCommand
+]:ru.nsu.perminov.main.CycleEndCommand

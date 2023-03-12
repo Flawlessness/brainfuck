@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error" name="PropertiesConfig">
+    <Properties>
+        <Property name="filename">logs/file.log</Property>
+    </Properties>
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %m%n"/>
+        </Console>
+        <RollingFile name="RollingFile" fileName="${filename}" filePattern="logs/logs-backup-%d{MM-dd-yy_HH:mm:ss}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %logger{36}:%L - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="logs" maxDepth="1">
+                    <IfFileName glob="debug-backup-*.log.gz" >
+                        <IfAny>
+                            <IfLastModified age="30d" />
+                            <IfAccumulatedFileCount exceeds="10"/>
+                            <IfAccumulatedFileSize exceeds="1GB"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+        <Logger name="ru.nsu.perminov.main" level="debug" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+
+        </Logger>
+    </Loggers>
+</Configuration>

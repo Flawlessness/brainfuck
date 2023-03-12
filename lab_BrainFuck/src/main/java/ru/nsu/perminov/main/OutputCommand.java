@@ -5,13 +5,13 @@ import java.util.Stack;
 public class OutputCommand implements ICommand
 {
     @Override
-    public void run(int[] array, Stack<Integer> callStack, Position currentPosition)
+    public void run(Compiler.IContext context)
     {
-        currentPosition.inInputFile++;
-        if(!callStack.empty() && callStack.peek() < 0)
+        context.setCurrentPositionInInputFile(context.getCurrentPositionInInputFile() + 1);
+        if(!context.emptyCallStack() && context.peekValueFromCallStack() < 0)
         {
             return;
         }
-        System.out.printf("%c", array[currentPosition.inArray]);
+        System.out.printf("%c", context.getValueInArray(context.getCurrentPositionInArray()));
     }
 }

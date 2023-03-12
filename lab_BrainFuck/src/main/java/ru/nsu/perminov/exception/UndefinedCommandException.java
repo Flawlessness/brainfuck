@@ -5,8 +5,5 @@ public class UndefinedCommandException extends Exception
     {
         super(message);
     }
-    public UndefinedCommandException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
+
 }

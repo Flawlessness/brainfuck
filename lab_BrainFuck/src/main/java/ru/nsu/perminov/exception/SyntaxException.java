@@ -5,8 +5,5 @@ public class SyntaxException extends Exception
     {
         super(message);
     }
-    public SyntaxException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
+
 }

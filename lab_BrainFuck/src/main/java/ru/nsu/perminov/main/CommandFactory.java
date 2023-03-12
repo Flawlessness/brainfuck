@@ -5,14 +5,18 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.nsu.perminov.exception.FileFormatException;
 import ru.nsu.perminov.exception.UndefinedCommandException;
 
 public class CommandFactory
 {
+    private static final Logger LOG = LogManager.getLogger(CommandFactory.class);
     private final HashMap<Character, String> existingCommands;
     CommandFactory (File configFile) throws FileNotFoundException, FileFormatException
     {
+        LOG.debug("{} class constructor is running", LOG.getName());
         Scanner configFileScanner = new Scanner(configFile);
         if (!configFileScanner.hasNextLine())
         {
@@ -29,24 +33,18 @@ public class CommandFactory
             }
             existingCommands.put(configCommandSeparated[0].charAt(0), configCommandSeparated[1]);
         }
+        LOG.debug("{} class constructed successfully", LOG.getName());
     }
     public ICommand create(Character commandName) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UndefinedCommandException
     {
+        LOG.trace("Creating an executable command: \"{}\"", commandName);
         String className;
         className = existingCommands.get(commandName);
         if (className == null)
         {
             throw new UndefinedCommandException(commandName.toString());
         }
-        return (ICommand) Class.forName(className).newInstance();
+        return (ICommand) Class.forName(className).getClassLoader().loadClass(className).newInstance();
     }
 }
-/*
-class A
-{
-    private int a;
-    public A (int a)
-    {
-        this.a = a;
-    }
-}*/
+
