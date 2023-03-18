@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import ru.nsu.perminov.exception.FileFormatException;
 import ru.nsu.perminov.exception.UndefinedCommandException;
 
@@ -14,7 +15,8 @@ public class CommandFactory
 {
     private static final Logger LOG = LogManager.getLogger(CommandFactory.class);
     private final HashMap<Character, String> existingCommands;
-    CommandFactory (File configFile) throws FileNotFoundException, FileFormatException
+
+    CommandFactory(File configFile) throws FileNotFoundException, FileFormatException
     {
         LOG.debug("{} class constructor is running", LOG.getName());
         Scanner configFileScanner = new Scanner(configFile);
@@ -35,6 +37,8 @@ public class CommandFactory
         }
         LOG.debug("{} class constructed successfully", LOG.getName());
     }
+
+    @NotNull
     public ICommand create(Character commandName) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UndefinedCommandException
     {
         LOG.trace("Creating an executable command: \"{}\"", commandName);

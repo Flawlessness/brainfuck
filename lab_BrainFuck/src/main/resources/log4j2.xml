@@ -15,7 +15,7 @@
             </Policies>
             <DefaultRolloverStrategy max="10">
                 <Delete basePath="logs" maxDepth="1">
-                    <IfFileName glob="debug-backup-*.log.gz" >
+                    <IfFileName glob="logs-backup-*.log.gz" >
                         <IfAny>
                             <IfLastModified age="30d" />
                             <IfAccumulatedFileCount exceeds="10"/>

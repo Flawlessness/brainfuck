@@ -1,15 +1,13 @@
 package ru.nsu.perminov.main;
 
-import java.util.Stack;
-
 public class DecrementDataCommand implements ICommand
 {
     @Override
-    public void run(Compiler.IContext context)
+    public void run(IContext context)
     {
         context.setCurrentPositionInInputFile(context.getCurrentPositionInInputFile() + 1);
 
-        if(!context.emptyCallStack() && context.peekValueFromCallStack() < 0)
+        if (!context.emptyCallStack() && context.peekValueFromCallStack() < 0)
         {
             return;
         }

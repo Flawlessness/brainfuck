@@ -13,67 +13,19 @@ import java.util.Stack;
 
 public class Compiler
 {
-    private IContext context;
-    public class IContext
-    {
-        public int getCurrentPositionInInputFile ()
-        {
-            return currentPosition.inInputFile;
-        }
-        public void setCurrentPositionInInputFile (int positionInInputFile)
-        {
-            currentPosition.inInputFile = positionInInputFile;
-        }
-        public int getCurrentPositionInArray ()
-        {
-            return currentPosition.inArray;
-        }
-        public void setCurrentPositionInArray (int currentPositionInArray)
-        {
-            currentPosition.inArray = currentPositionInArray;
-        }
-        public int getValueInArray (int currentPositionInArray)
-        {
-            return array[currentPositionInArray];
-        }
-        public void setValueInArray (int currentPositionInArray, int value)
-        {
-            array[currentPositionInArray] = value;
-        }
-        public int peekValueFromCallStack()
-        {
-            return callStack.peek();
-        }
-        public void pushValueInCallStack (int value)
-        {
-            callStack.push(value);
-        }
-        public int popValueFromCallStack ()
-        {
-            return callStack.pop();
-        }
-        public boolean emptyCallStack ()
-        {
-            return callStack.empty();
-        }
-    }
+    private final IContext context;
     private static final Logger LOG = LogManager.getLogger(Compiler.class);
     private final CommandFactory factory;
     private final File inputFile;
-    private final int[] array;
-    private final Position currentPosition;
     private final HashMap<Character, ICommand> availableCommands;
-    private final Stack<Integer> callStack;
+
     public Compiler(File configFile, File inputFile) throws FileNotFoundException, FileFormatException
     {
         LOG.debug("{} class constructor is running", LOG.getName());
-        this.context = new IContext();
+        this.context = new Context();
         this.factory = new CommandFactory(configFile);
         this.inputFile = inputFile;
-        this.array = new int[Constant.arraySize];
-        this.currentPosition = new Position(0, 0);
         availableCommands = new HashMap<>();
-        callStack = new Stack<>();
         LOG.debug("{} class constructed successfully", LOG.getName());
     }
 
@@ -87,11 +39,11 @@ public class Compiler
         }
         String inputCommands = inputFileScanner.nextLine();
         Character currentCommand;
-        while (currentPosition.inInputFile != inputCommands.length())
+        while (context.getCurrentPositionInInputFile() != inputCommands.length())
         {
-            currentCommand = inputCommands.charAt(currentPosition.inInputFile);
-            LOG.trace("Current position in the executable file: \"{}\"", currentPosition.inInputFile);
-            LOG.trace("The current value in {} cell of the array: \"{}\"", currentPosition.inArray, (int)array[currentPosition.inArray]);
+            currentCommand = inputCommands.charAt(context.getCurrentPositionInInputFile());
+            LOG.trace("Current position in the executable file: \"{}\"", context.getCurrentPositionInInputFile());
+            LOG.trace("The current value in {} cell of the array: \"{}\"", context.getCurrentPositionInArray(), (int) context.getValueInArray(context.getCurrentPositionInArray()));
             LOG.trace("Run command execution: \"{}\"", currentCommand);
             if (!this.availableCommands.containsKey(currentCommand))
             {
@@ -102,6 +54,7 @@ public class Compiler
         LOG.debug("The program was successfully implemented");
     }
 }
+
 class Position
 {
     Position(int inArray, int inInputFile)
@@ -109,6 +62,7 @@ class Position
         this.inArray = inArray;
         this.inInputFile = inInputFile;
     }
+
     public int inArray;
     public int inInputFile;
 }
@@ -117,4 +71,68 @@ class Constant
 {
     final static int arraySize = 30000;
     final static int maxNumber = 256;
+}
+
+class Context implements IContext
+{
+    private final int[] array;
+    private final Position currentPosition;
+    private final Stack<Integer> callStack;
+
+    Context()
+    {
+        this.array = new int[Constant.arraySize];
+        this.currentPosition = new Position(0, 0);
+        this.callStack = new Stack<>();
+    }
+
+    public int getCurrentPositionInInputFile()
+    {
+        return currentPosition.inInputFile;
+    }
+
+    public void setCurrentPositionInInputFile(int positionInInputFile)
+    {
+        currentPosition.inInputFile = positionInInputFile;
+    }
+
+    public int getCurrentPositionInArray()
+    {
+        return currentPosition.inArray;
+    }
+
+    public void setCurrentPositionInArray(int currentPositionInArray)
+    {
+        currentPosition.inArray = currentPositionInArray;
+    }
+
+    public int getValueInArray(int currentPositionInArray)
+    {
+        return array[currentPositionInArray];
+    }
+
+    public void setValueInArray(int currentPositionInArray, int value)
+    {
+        array[currentPositionInArray] = value;
+    }
+
+    public int peekValueFromCallStack()
+    {
+        return callStack.peek();
+    }
+
+    public void pushValueInCallStack(int value)
+    {
+        callStack.push(value);
+    }
+
+    public int popValueFromCallStack()
+    {
+        return callStack.pop();
+    }
+
+    public boolean emptyCallStack()
+    {
+        return callStack.empty();
+    }
 }

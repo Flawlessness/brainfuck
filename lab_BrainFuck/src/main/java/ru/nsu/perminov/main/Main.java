@@ -7,9 +7,7 @@ import ru.nsu.perminov.exception.FileFormatException;
 import ru.nsu.perminov.exception.SyntaxException;
 import ru.nsu.perminov.exception.UndefinedCommandException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 public class Main
 {
