@@ -44,13 +44,12 @@ public class Main
             }
         }
 
-        File input = new File(inputFileName);
-        File config = new File(configFileName);
-
         LOG.info("Input files opened successfully: executable file - \"{}\"  configuration file - \"{}\"", inputFileName, configFileName);
 
         try
         {
+            Reader input = new FileReader(inputFileName);
+            Reader config = new FileReader(configFileName);
             Compiler exe = new Compiler(config, input);
             exe.runProgram();
             LOG.info("The program ended successfully" );

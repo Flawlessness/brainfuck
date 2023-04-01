@@ -4,9 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.nsu.perminov.exception.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
@@ -16,10 +15,10 @@ public class Compiler
     private final IContext context;
     private static final Logger LOG = LogManager.getLogger(Compiler.class);
     private final CommandFactory factory;
-    private final File inputFile;
+    private final Reader inputFile;
     private final HashMap<Character, ICommand> availableCommands;
 
-    public Compiler(File configFile, File inputFile) throws FileNotFoundException, FileFormatException
+    public Compiler(Reader configFile, Reader inputFile) throws FileFormatException
     {
         LOG.debug("{} class constructor is running", LOG.getName());
         this.context = new Context();
@@ -43,7 +42,7 @@ public class Compiler
         {
             currentCommand = inputCommands.charAt(context.getCurrentPositionInInputFile());
             LOG.trace("Current position in the executable file: \"{}\"", context.getCurrentPositionInInputFile());
-            LOG.trace("The current value in {} cell of the array: \"{}\"", context.getCurrentPositionInArray(), (int) context.getValueInArray(context.getCurrentPositionInArray()));
+            LOG.trace("The current value in {} cell of the array: \"{}\"", context.getCurrentPositionInArray(), context.getValueInArray(context.getCurrentPositionInArray()));
             LOG.trace("Run command execution: \"{}\"", currentCommand);
             if (!this.availableCommands.containsKey(currentCommand))
             {

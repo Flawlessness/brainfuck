@@ -1,7 +1,6 @@
 package ru.nsu.perminov.main;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -16,7 +15,7 @@ public class CommandFactory
     private static final Logger LOG = LogManager.getLogger(CommandFactory.class);
     private final HashMap<Character, String> existingCommands;
 
-    CommandFactory(File configFile) throws FileNotFoundException, FileFormatException
+    CommandFactory(Reader configFile) throws FileFormatException
     {
         LOG.debug("{} class constructor is running", LOG.getName());
         Scanner configFileScanner = new Scanner(configFile);
