@@ -46,10 +46,9 @@ public class Main
 
         LOG.info("Input files opened successfully: executable file - \"{}\"  configuration file - \"{}\"", inputFileName, configFileName);
 
-        try
+        try (Reader input = new FileReader(inputFileName);
+             Reader config = new FileReader(configFileName))
         {
-            Reader input = new FileReader(inputFileName);
-            Reader config = new FileReader(configFileName);
             Compiler exe = new Compiler(config, input);
             exe.runProgram();
             LOG.info("The program ended successfully" );
